@@ -1,0 +1,76 @@
+#define led_pina 9
+#define led_pinb 10
+#define led_pinc 11
+#define led_pind 12
+#define led_pine 13
+
+
+#define fsr_pin A0
+
+
+const int buzzer = 8; 
+
+void setup()
+
+
+{
+
+
+Serial.begin(115200);
+
+pinMode(buzzer,OUTPUT);
+pinMode(led_pina, OUTPUT);
+pinMode(led_pinb, OUTPUT);
+pinMode(led_pinc, OUTPUT);
+pinMode(led_pind, OUTPUT);
+pinMode(led_pine, OUTPUT);
+
+
+}
+
+
+
+
+void loop()
+
+
+{
+
+int ii = 262;
+
+for(ii = 262; ii<=698; ii=ii*1.05946 ){
+      tone(8,ii);
+      delay(300);       
+    }
+    noTone(buzzer);
+    delay(2000); 
+
+int fsr_value = analogRead(fsr_pin); // 讀取FSR
+
+
+int led_value = map(fsr_value, 0, 1023, 0, 255); // 從0~1023映射到0~255
+
+int buz_value = map(fsr_value, 0, 1023, 0, 255);
+
+analogWrite(led_pina, led_value); // 改變LED亮度
+analogWrite(led_pinb, led_value);
+analogWrite(led_pinc, led_value);
+analogWrite(led_pind, led_value);
+analogWrite(led_pine, led_value);
+analogWrite(buzzer, buz_value);
+
+
+
+Serial.println(fsr_value);
+
+
+Serial.println(led_value);
+
+
+Serial.println("-------------");
+
+
+delay(100);
+
+
+}
